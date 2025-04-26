@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon May  6 11:35:39 2024
-
-@author: tejaswini appani
-"""
-
 import tkinter as tk
 from tkinter import scrolledtext
 from nltk.tokenize import word_tokenize
@@ -92,21 +85,21 @@ def send_message():
     # Vectorize the preprocessed input
     vectorized_input = vectorizer.transform([preprocessed_input])
 
-    # Check for specific phrases to exit the chat
-    if user_input == 'bye':
+    # Check for specific phrases
+    if user_input.lower() == 'bye':
         response = "Chatbot: Bye! Have a nice day!\n"
-        conversation_text.insert(tk.END, response)
-    # Check for other specific phrases to respond
-    elif user_input == 'thank you':
+    elif user_input.lower() == 'thank you':
         response = "Chatbot: You're welcome!\n"
-        conversation_text.insert(tk.END, response)
+    elif user_input.lower() == 'hi':
+        response = "Chatbot: hi, how can I help you?\n"
     else:
-        # Calculate similarity between user input and dataset questions
         similarities = cosine_similarity(vectorized_input, X_vectorized)
         most_similar_index = similarities.argmax()
         prediction = y[most_similar_index]
         response = f"Chatbot: {prediction}.\n"
-        conversation_text.insert(tk.END, response)
+    
+    conversation_text.insert(tk.END, response)
+
 
 # Create a send button
 send_button = tk.Button(input_frame, text="Send", command=send_message, bg="#4CAF50", fg="white",
